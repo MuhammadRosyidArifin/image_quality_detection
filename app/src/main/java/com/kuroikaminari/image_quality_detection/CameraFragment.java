@@ -12,6 +12,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -34,6 +35,7 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -71,7 +73,7 @@ public class CameraFragment extends Fragment
     private static final int REQUEST_CAMERA_PERMISSION = 1;
     private static final String FRAGMENT_DIALOG = "dialog";
 
-    public int zoom_level = 35;
+    public int zoom_level = 37;
     public Rect zoom;
 
     static {
@@ -860,6 +862,14 @@ public class CameraFragment extends Fragment
                     Log.d(TAG, mFile.toString());
                     unlockFocus();
                     //percobaan
+
+                    Intent data = new Intent();
+                    String path = mFile.toString();
+                    data.setData(Uri.parse(path));
+                    activity.setResult(Activity.RESULT_OK,data);
+
+                    closeCamera();
+                    stopBackgroundThread();
                     activity.finish();
                 }
             };
